@@ -1,20 +1,17 @@
-IyDwn5uh77iPIEdhcmRpZW4g4oCUIElBIE9uLURldmljZSBmb3IgQ2hpbGQg
-U2FmZXR5Cgo+ICoqQW4gQW5kcm9pZCBhcHAgdGhhdCBwcm90ZWN0cyBjaGls
-ZHJlbiBieSBhbmFseXppbmcgbWVzc2FnZXMgYW5kIGltYWdlcyBsb2NhbGx5
-IOKAlCBub3RoaW5nIGxlYXZlcyB0aGUgcGhvbmUgZXhjZXB0IGluIGNhc2Ug
-b2YgZGFuZ2VyLioqCgpObyBjbG91ZC4gTm8gc3B5aW5nLiBObyBkYXNoYm9h
-cmQuIEp1c3QgYW4gQUkgZ3VhcmRpYW4gdGhhdCAqdW5kZXJzdGFuZHMqIHJp
-c2sg4oCUIGFuZCBzdGF5cyBzaWxlbnQgdW50aWwgaXQgbXVzdCBhY3QuCgoj
-IyDwn5qrIFdoYXQgVGhpcyBJcyBOT1QKCi0g4pyW77iPIE5vdCBCYXJrLCBR
-dXN0b2Rpbywgb3IgbVNweSDigJQgd2UgZG8gKipub3QqKiBzZW5kIHlvdXIg
-Y2hpbGQncyBtZXNzYWdlcyB0byB0aGUgY2xvdWQuCi0g4pyW77iPIE5vdCBh
-IHBhcmVudGFsIHNweSB0b29sIOKAlCB5b3UgKipkbyBub3QqKiByZWFkIHlv
-dXIgY2hpbGQncyBtZXNzYWdlcy4KLSDinJbvuI8gTm90IGEgc2NyZWVuIHRp
-bWUgdHJhY2tlciDigJQgd2UgZG9uJ3QgbW9uaXRvciBob3cgbG9uZyB0aGV5
-J3JlIG9uIHRoZWlyIHBob25lLgoKIyMg4pyFIFdoYXQgVGhpcyBJUwoKLSDi
-nIUgQSAqKmxvY2FsIExMTSoqIHJ1bm5pbmcgb24gdGhlIGNoaWxkJ3MgQW5k
-cm9pZCBwaG9uZSAoUGhpLTMtbWluaSAzLjhCKQotIOKchSBNb25pdG9ycyAq
-KmFsbCBtZXNzYWdpbmcgYXBwcyoqIChXaGF0c0FwcCwgSW5zdGFncmFtLCBT
-bmFwY2hhdCwgU01TKSB2aWEgQW5kcm9pZCBBY2Nlc3NpYmlsaXR5ICsgTm90
-aWZpY2F0aW9uIHNlcnZpY2VzCi0g4pyFIERldGVjdHMgKipncm9vbWluZywg
-c2VsZi1oYXJtLCB2aW9sZW5jZSwgc2V4dWFs
+<p align="center">
+  <img src="assets/banner.jpg" alt="Gardien — Protéger aujourd'hui. Construire demain." />
+</p>
+
+<h1 align="center">🛡️ Gardien</h1>
+<p align="center"><strong>IA On-Device for Child Safety</strong></p>
+<p align="center">
+  An Android app that protects children by analyzing messages and images locally —<br/>
+  <em>nothing leaves the phone except in case of danger.</em>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/code-AGPL--3.0%20%2B%20Commons%20Clause-blue" alt="License: AGPL-3.0"></a>
+  <a href="LICENSE-DOCS"><img src="https://img.shields.io/badge/docs-CC%20BY--NC--SA%204.0-green" alt="License: CC BY-NC-SA 4.0"></a>
+  <img src="https://img.shields.io/badge/platform-Android-brightgreen" alt="Platform: Android">
+  <img src="https://img.shields.io/badge/AI-on--device-orange" alt="AI: On-Device">
+  <img src="https://img.shie
