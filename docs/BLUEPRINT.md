@@ -116,7 +116,7 @@
 
 ## 6. LICENCE
 
-- **Code source** → AGPL-3.0 + Commons Clause (see LICENSE + LICENSE-COMMONS-CLAUSE)
+- **Code source** → AGPL-3.0 + Commons Clause (see LICENSE)
 - **Documentation** → CC BY-NC-SA 4.0 (see LICENSE-DOCS)
 - **Protection INPI** → Enveloppe Soleau recommandée (~15€)
 

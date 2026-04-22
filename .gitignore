@@ -80,6 +80,11 @@ models/*.onnx
 *.db-wal
 *.db-shm
 
+# Environment variables
+.env
+.env.*
+*.env
+
 # OS files
 .DS_Store
 Thumbs.db
