@@ -3,14 +3,14 @@
 </p>
 
 <h1 align="center">🛡️ Gardien</h1>
-<p align="center"><strong>IA On-Device for Child Safety</strong></p>
+<p align="center"><strong>On-Device AI for Child Safety</strong></p>
 <p align="center">
   An Android app that protects children by analyzing messages and images locally —<br/>
   <em>nothing leaves the phone except in case of danger.</em>
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/code-AGPL--3.0%20%2B%20Commons%20Clause-blue" alt="License: AGPL-3.0"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/code-AGPL--3.0%20%2B%20Commons%20Clause-blue" alt="License: AGPL-3.0 + Commons Clause"></a>
   <a href="LICENSE-DOCS"><img src="https://img.shields.io/badge/docs-CC%20BY--NC--SA%204.0-green" alt="License: CC BY-NC-SA 4.0"></a>
   <img src="https://img.shields.io/badge/platform-Android-brightgreen" alt="Platform: Android">
   <img src="https://img.shields.io/badge/AI-on--device-orange" alt="AI: On-Device">
@@ -18,6 +18,8 @@
 </p>
 
 ---
+
+> 🇬🇧 **English** — [🇫🇷 Version française ci-dessous](#-gardien-1)
 
 No cloud. No spying. No dashboard. Just an AI guardian that *understands* risk — and stays silent until it must act.
 
@@ -39,26 +41,11 @@ No cloud. No spying. No dashboard. Just an AI guardian that *understands* risk �
 
 ## 📜 License
 
-- **Code**: [AGPL-3.0 + Commons Clause](LICENSE) — Open source, **no commercial use**
+> ⚠️ **Not open-source.** The AGPL-3.0 + Commons Clause license makes this project **source-available** — you can read, fork, and contribute, but **commercial use is prohibited**. This is a deliberate choice: child safety tools should not be monetized by third parties.
+
+- **Code**: [AGPL-3.0 + Commons Clause](LICENSE) — Source-available, **no commercial use**
 - **Documentation**: [CC BY-NC-SA 4.0](LICENSE-DOCS) — Attribution required, non-commercial
 
 ## 📄 Documentation
 
-- [Blueprint MVP](docs/BLUEPRINT.md)
-- [Legal Framework (France)](docs/LEGAL.md)
-- [Security Policy](SECURITY.md)
-- [Contributing](CONTRIBUTING.md)
-
-## 🚀 Roadmap
-
-[Phase 0: Setup](#phase-0) → Phase 1: Capture → Phase 2: AI → Phase 3: Lock → Phase 4: Evidence → Phase 5: UX → Phase 6: Test
-
----
-
-**Built by ClawJoy (Joëlle) for Paul Simon — Rouen, France — April 2026**
-
-> "We protect their privacy, not their silence."
-
----
-
-*This is a research blueprint. Not production software. Do not install on any device without legal counsel.*
+- [Blueprint MVP](docs/BLUEPRINT.md
