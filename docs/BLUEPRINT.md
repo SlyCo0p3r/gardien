@@ -7,7 +7,7 @@
 
 ## 1. RÉSUMÉ EXÉCUTIF
 
-**Gardien** est une application Android de protection des mineurs (10-18 ans) qui fait tourner un LLM directement sur le téléphone pour analyser en temps réel les conversations et images reçues, **sans jamais envoyer de données vers le cloud**. Aucune solution commerciale existante ne combine IA on-device, respect de la vie privée et preuves à valeur juridique. Le MVP cible Android avec SMS + WhatsApp + Snapchat + Instagram, utilise Phi-3-mini (3.8B Q4) via llama.cpp, et génère des paquets de preuves horodatés et signés cryptographiquement. Le cadre juridique français autorise ce dispositif sous conditions strictes : consentement des deux parents, proportionnalité, transparence envers l'enfant, et privacy by design.
+**Gardien** est une application Android de protection des mineurs (10-18 ans) qui fait tourner un LLM directement sur le téléphone pour analyser en temps réel les conversations et images reçues, **sans jamais envoyer de données vers le cloud**. Aucune solution commerciale existante ne combine IA on-device, respect de la vie privée et preuves à valeur juridique. Le MVP cible Android avec SMS + WhatsApp + Snapchat + Instagram + TikTok + Discord, utilise Phi-3-mini (3.8B Q4) via llama.cpp, et génère des paquets de preuves horodatés et signés cryptographiquement. Le cadre juridique français autorise ce dispositif sous conditions strictes : consentement des deux parents, proportionnalité, transparence envers l'enfant, et privacy by design.
 
 ---
 
@@ -17,7 +17,7 @@
 |---|---|---|---|---|---|
 | Analyse IA du contenu | ✅ Cloud | ❌ | ❌ | ❌ | ✅ **On-device** |
 | Données envoyées au cloud | 🔴 Tout | 🔴 Partiel | 🔴 Tout | 🟡 Metadata | 🟢 **Rien** (sauf incident) |
-| Messages éphémères | 🟡 Partiel | ❌ | 🟡 Partiel | ❌ | ✅ **Notification + A11y** |
+| Messages éphémères | 🟡 Partiel | ❌ | 🟡 Partiel | ❌ | ✅ **Notification + A11y** (Snap, TikTok, Discord) |
 | Respect vie privée enfant | 🟡 | 🟡 | 🔴 | 🟢 | 🟢 **By design** |
 | Dashboard parental espion | ✅ (lit les msgs) | ✅ | ✅ (lit tout) | ❌ | ❌ **Alertes seules** |
 | Preuves juridiques | ❌ | ❌ | ❌ | ❌ | ✅ **SHA-256 + RFC 3161** |
@@ -63,6 +63,8 @@
 │  │  │ • WA notifs  │  │ • Chat bubbles │  │ • SMS/MMS    │ │  │
 │  │  │ • Snap notifs│  │ • Screen text  │  │   inbox      │ │  │
 │  │  │ • Insta notif│  │ • Image detect │  │              │ │  │
+│  │  │ • TikTok DMs │  │ • UI elements  │  │              │ │  │
+│  │  │ • Discord    │  │                │  │              │ │  │
 │  │  │ • Éphémères ✓│  │ • UI elements  │  │              │ │  │
 │  │  └──────┬───────┘  └───────┬────────┘  └──────┬───────┘ │  │
 │  └─────────┼──────────────────┼──────────────────┼─────────┘  │
@@ -143,7 +145,7 @@
 
 **Stratégie hybride :**
 
-- **NotificationListenerService** : capture TOUTES les notifications en temps réel (y compris éphémères Snap/WhatsApp). Zéro délai, faible batterie. C'est la première ligne.
+- **NotificationListenerService** : capture TOUTES les notifications en temps réel (y compris éphémères Snap/WhatsApp, DMs TikTok, messages Discord). Zéro délai, faible batterie. C'est la première ligne.
 - **AccessibilityService** : scan actif quand une app de messaging est au premier plan. Capture le contenu écran (texte + détection d'éléments image). Intervalle : à chaque changement de fenêtre/scroll.
 - **Analyse LLM** : batch processing toutes les 30-60 secondes sur le buffer accumulé. Pas de scan en continu = batterie préservée.
 - **Éphémères Snap** : la notification est capturée AVANT ouverture par l'enfant. Si le contenu est suffisant dans la notif → analyse immédiate. Sinon → AccessibilityService capture le contenu quand l'enfant ouvre le message.
@@ -216,8 +218,9 @@
 - [x] CI/CD (GitHub Actions)
 
 ### Phase 1 — Capture (S3-5)
-- [ ] NotificationListenerService
+- [ ] NotificationListenerService (WhatsApp, Snap, TikTok, Discord, Insta)
 - [ ] AccessibilityService
+- [ ] SMS Content Provider
 - [ ] Buffer chiffré Room/SQLCipher + purge 24h
 - [ ] Tests Pixel 7a
 

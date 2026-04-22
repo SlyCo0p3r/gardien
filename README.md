@@ -29,7 +29,7 @@ Pas de cloud. Pas d'espionnage. Pas de tableau de bord. Juste une IA gardienne q
 ## ✅ Ce que c'est
 
 - ✅ Un LLM local sur le téléphone Android de l'enfant (Phi-3-mini 3.8B)
-- ✅ Surveille toutes les apps de messagerie (WhatsApp, Instagram, Snapchat, SMS) via Android Accessibility + Notification services
+- ✅ Surveille toutes les apps de messagerie (WhatsApp, Snapchat, TikTok, Discord, Instagram, SMS) via Android Accessibility + Notification services
 - ✅ Détecte le harcèlement, la prédation, l'automutilation, les contenus sexuels — avec Llama Guard 3 fine-tuné
 - ✅ Aucune donnée ne quitte l'appareil sauf en cas d'incident
 - ✅ En cas de danger : envoi d'un SMS aux parents + verrouillage du téléphone (appels uniquement aux parents autorisés)
@@ -69,7 +69,7 @@ No cloud. No spying. No dashboard. Just an AI guardian that *understands* risk �
 ### ✅ What This IS
 
 - ✅ A local LLM running on the child's Android phone (Phi-3-mini 3.8B)
-- ✅ Monitors all messaging apps (WhatsApp, Instagram, Snapchat, SMS) via Android Accessibility + Notification services
+- ✅ Monitors all messaging apps (WhatsApp, Snapchat, TikTok, Discord, Instagram, SMS) via Android Accessibility + Notification services
 - ✅ Detects grooming, self-harm, violence, sexual content — using fine-tuned Llama Guard 3
 - ✅ Zero data leaves the device unless an incident is detected
 - ✅ In case of danger: sends SMS alert to parents + locks the phone (only calls to parents allowed)
