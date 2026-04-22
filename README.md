@@ -16,15 +16,14 @@
 
 ---
 
-> Une app Android qui protège les enfants en analysant messages et images **localement** — rien ne quitte le téléphone sauf en cas de danger.
-
+Une app Android qui protège les enfants en analysant messages et images **localement** — rien ne quitte le téléphone sauf en cas de danger.
 Pas de cloud. Pas d'espionnage. Pas de tableau de bord. Juste une IA gardienne qui *comprend* le risque — et reste silencieuse jusqu'à ce qu'elle doive agir.
 
 ## 🚫 Ce que Gardien n'est PAS
 
-- ✖️ Pas Bark, Qustodio ou mSpy — on n'envoie pas les messages de votre enfant dans le cloud.
-- ✖️ Pas un outil d'espionnage parental — vous ne lisez pas les messages de votre enfant.
-- ✖️ Pas un tracker de temps d'écran — on ne surveille pas combien de temps ils passent sur leur téléphone.
+- ✖️ Bark, Qustodio ou mSpy — on n'envoie pas les messages de votre enfant dans le cloud.
+- ✖️ Un outil d'espionnage parental — vous ne lisez pas les messages de votre enfant.
+- ✖️ Un tracker de temps d'écran — on ne surveille pas combien de temps ils passent sur leur téléphone.
 
 ## ✅ Ce que c'est
 
