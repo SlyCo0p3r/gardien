@@ -48,44 +48,128 @@
 | **Build** | Gradle + CMake (pour llama.cpp) | Standard. |
 | **Min SDK** | API 28 (Android 9) | NotificationListenerService stable à partir de là. |
 
-### 3.2 Device cible MVP
+### 3.2 Diagramme d'architecture
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│                    GARDIEN — Android App                      │
+│                                                               │
+│  ┌───────────────────  CAPTURE LAYER  ─────────────────────┐  │
+│  │                                                         │  │
+│  │  ┌──────────────┐  ┌────────────────┐  ┌──────────────┐ │  │
+│  │  │ Notification │  │ Accessibility  │  │ SMS Content  │ │  │
+│  │  │   Listener   │  │    Service     │  │   Provider   │ │  │
+│  │  │              │  │                │  │              │ │  │
+│  │  │ • WA notifs  │  │ • Chat bubbles │  │ • SMS/MMS    │ │  │
+│  │  │ • Snap notifs│  │ • Screen text  │  │   inbox      │ │  │
+│  │  │ • Insta notif│  │ • Image detect │  │              │ │  │
+│  │  │ • Éphémères ✓│  │ • UI elements  │  │              │ │  │
+│  │  └──────┬───────┘  └───────┬────────┘  └──────┬───────┘ │  │
+│  └─────────┼──────────────────┼──────────────────┼─────────┘  │
+│            └──────────┬───────┘                   │            │
+│                       ▼                           ▼            │
+│  ┌────────────────────────────────────────────────────────────┐│
+│  │         MESSAGE QUEUE (Room DB / SQLCipher)               ││
+│  │         Buffer chiffré AES-256 — rétention 24h            ││
+│  └──────────────────────────┬─────────────────────────────────┘│
+│                             ▼                                  │
+│  ┌────────────────  ANALYSIS ENGINE  ─────────────────────────┐│
+│  │                                                            ││
+│  │  ┌────────────────────┐  ┌───────────────────────────┐    ││
+│  │  │  Phi-3-mini 3.8B   │  │  Image Safety Pipeline    │    ││
+│  │  │  (llama.cpp / JNI) │  │                           │    ││
+│  │  │                    │  │  Falconsai NSFW (ONNX)    │    ││
+│  │  │  Llama Guard 3     │  │  +                        │    ││
+│  │  │  LoRA adapter      │  │  pdq perceptual hash      │    ││
+│  │  │  (child safety)    │  │  (CSAM hash DB locale)    │    ││
+│  │  │                    │  │                           │    ││
+│  │  │  Catégories :      │  │                           │    ││
+│  │  │  • Harcèlement     │  │                           │    ││
+│  │  │  • Prédation/groom.│  │                           │    ││
+│  │  │  • Automutilation  │  │                           │    ││
+│  │  │  • Contenu sexuel  │  │                           │    ││
+│  │  │  • Violence        │  │                           │    ││
+│  │  └─────────┬──────────┘  └──────────┬────────────────┘    ││
+│  └────────────┼───────────────────────────┼──────────────────┘│
+│               └──────────┬────────────────┘                    │
+│                          ▼                                     │
+│  ┌────────────  DECISION ENGINE  ─────────────────────────────┐│
+│  │                                                            ││
+│  │  Score de risque (0-100) :                                 ││
+│  │                                                            ││
+│  │  0-30  → [OK]       RAS — purge buffer                    ││
+│  │  30-60 → [ATTENTION] Log local, pas d'alerte              ││
+│  │  60-85 → [ALERTE]   ALERTE PARENT (SMS depuis tél. enfant)││
+│  │  85+   → [LOCK]     LOCK DEVICE + ALERTE + PACKAGE PREUVES││
+│  │                                                            ││
+│  └────────┬─────────────────────────────┬─────────────────────┘│
+│           ▼                             ▼                      │
+│  ┌─────────────────┐  ┌──────────────────────────────────────┐│
+│  │  ALERT MODULE   │  │       EVIDENCE PACKAGER              ││
+│  │                 │  │                                      ││
+│  │  • SMS au parent│  │  • SHA-256 hash messages             ││
+│  │    depuis n° de │  │  • SHA-256 hash screenshots          ││
+│  │    l'enfant     │  │  • RFC 3161 timestamp (Bouncy Castle)││
+│  │  • Catégorie    │  │  • Android Keystore signature (HW)   ││
+│  │    danger       │  │  • PDF rapport généré                ││
+│  │  • Score        │  │  • Package .gardien (ZIP signé)      ││
+│  └─────────────────┘  └──────────────────────────────────────┘│
+│                                                               │
+│  ┌────────────  LOCK MODULE  ─────────────────────────────────┐│
+│  │  Device Policy Manager                                    ││
+│  │  • Verrouillage écran total                               ││
+│  │  • Whitelist : appels vers parents uniquement             ││
+│  │  • Déverrouillage : PIN parental (6 digits)               ││
+│  └────────────────────────────────────────────────────────────┘│
+│                                                               │
+│  ┌────────────  SETUP / CONFIG  ──────────────────────────────┐│
+│  │  • Écran setup initial (PIN parental, n° parents)         ││
+│  │  • Double consentement parental (signature numérique)     ││
+│  │  • Apps à surveiller (sélection)                          ││
+│  │  • Modèle LLM embarqué (download initial ~2.2 GB)        ││
+│  └────────────────────────────────────────────────────────────┘│
+└───────────────────────────────────────────────────────────────┘
+```
+
+### 3.3 Device cible MVP
 
 - **Chipset minimum :** Snapdragon 700-series ou équivalent (Dimensity 7200+, Tensor G2+)
 - **RAM minimum :** 6 GB (8 GB recommandé)
 - **Stockage :** ~3 GB pour app + modèles + buffer local
 - **Android :** 9+ (API 28)
-- **Device de référence pour tests :** Pixel 7a (Tensor G2, 8 GB RAM)
+- **Device de référence pour tests :** Pixel 7a (Tensor G2, 8 GB RAM) — bon ratio prix/perf, accès rapide aux betas Android
 
-### 3.3 Scan périodique & messages éphémères
+### 3.4 Scan périodique & messages éphémères
 
 **Stratégie hybride :**
-- **NotificationListenerService** : capture TOUTES les notifications en temps réel (y compris éphémères Snap/WhatsApp). Zéro délai, faible batterie.
-- **AccessibilityService** : scan actif quand une app de messaging est au premier plan. Capture le contenu écran.
-- **Analyse LLM** : batch processing toutes les 30-60 secondes sur le buffer accumulé.
-- **Éphémères Snap** : la notification est capturée AVANT ouverture par l'enfant.
 
-**Impact batterie estimé :** 5-8% supplémentaire/jour.
+- **NotificationListenerService** : capture TOUTES les notifications en temps réel (y compris éphémères Snap/WhatsApp). Zéro délai, faible batterie. C'est la première ligne.
+- **AccessibilityService** : scan actif quand une app de messaging est au premier plan. Capture le contenu écran (texte + détection d'éléments image). Intervalle : à chaque changement de fenêtre/scroll.
+- **Analyse LLM** : batch processing toutes les 30-60 secondes sur le buffer accumulé. Pas de scan en continu = batterie préservée.
+- **Éphémères Snap** : la notification est capturée AVANT ouverture par l'enfant. Si le contenu est suffisant dans la notif → analyse immédiate. Sinon → AccessibilityService capture le contenu quand l'enfant ouvre le message.
+
+**Impact batterie estimé :** 5-8% supplémentaire/jour en usage normal (comparable à un antivirus Android).
 
 ---
 
-## 4. CADRE JURIDIQUE
+## 4. CADRE JURIDIQUE — OBLIGATIONS & RECOMMANDATIONS
 
 ### 4.1 Obligations légales
 
-- **RGPD s'applique** même pour traitement on-device (art. 4-2). Privacy by design obligatoire (art. 25).
-- **Majorité numérique à 15 ans** (loi du 7 juillet 2023).
-- **Les DEUX parents doivent consentir** (art. 372, 373-2-6 Code civil, loi n° 2024-120).
-- **Secret des correspondances** (art. 226-15 Code pénal) : exception autorité parentale si proportionné.
-- **Preuves recevables** si : horodatage fiable (RFC 3161), intégrité prouvée (SHA-256, NF Z42-013).
+- **RGPD s'applique** même pour traitement on-device (art. 4-2 : la collecte EST un traitement). Privacy by design obligatoire (art. 25).
+- **Majorité numérique à 15 ans** (loi du 7 juillet 2023). Pour les 10-14 ans : consentement parental vérifié obligatoire. Pour les 15-17 ans : le mineur peut théoriquement refuser.
+- **Les DEUX parents doivent consentir** à l'installation (art. 372, 373-2-6 Code civil, loi n° 2024-120). En cas de désaccord → juge aux affaires familiales.
+- **Secret des correspondances** (art. 226-15 Code pénal) : l'interception est un délit, MAIS l'autorité parentale crée une exception si proportionné et dans l'intérêt supérieur de l'enfant.
+- **Preuves recevables** si : horodatage fiable (RFC 3161), intégrité prouvée (SHA-256, NF Z42-013), chaîne de conservation documentée (art. 427 CPP, jurisprudence Crim. 5 avril 2010).
 
-### 4.2 Recommandations
+### 4.2 Recommandations d'implémentation
 
-- Double validation parentale (2 signatures numériques distinctes)
-- Minimisation : pas de stockage post-analyse sauf incident (score ≥ 60)
-- Aucun serveur, aucun cloud, aucune télémétrie
-- Log local chiffré des actions de l'app
-- Droit à l'effacement : désinstallation libre
-- AIPD obligatoire avant mise en production (art. 35 RGPD)
+- **Écran de setup :** double validation parentale (2 signatures numériques distinctes) + information claire à l'enfant sur ce que fait l'app.
+- **Minimisation :** NE PAS stocker le contenu des messages après analyse sauf en cas d'incident (score ≥ 60). Buffer 24h puis purge automatique.
+- **Pas de collecte centralisée :** aucun serveur, aucun cloud, aucune télémétrie. L'app est un monolithe local.
+- **Auditabilité :** log local chiffré des actions de l'app (quand elle a scanné, quand elle a purgé, quand elle a alerté). Consultable par les parents sur le device.
+- **Droit à l'effacement :** l'enfant (ou le parent) peut désinstaller l'app à tout moment. Les preuves packagées restent si exportées.
+- **AIPD (Analyse d'Impact) :** obligatoire avant mise en production (art. 35 RGPD). À inclure dans la documentation du blueprint.
 
 ---
 
@@ -95,22 +179,22 @@
 
 | Risque | Impact | Mitigation |
 |---|---|---|
-| Faux positifs | 🔴 Élevé | Seuils élevés (≥85 pour lock). Fine-tuning itératif. |
-| Faux négatifs | 🔴 Élevé | Multi-messages context window. |
-| Google A11y restrictions | 🟠 Moyen | Distribution APK direct / F-Droid. |
-| Performance bas de gamme | 🟠 Moyen | Min 6GB RAM. |
-| Batterie | 🟡 Faible | Scan périodique. 5-8%/jour. |
-| MAJ apps messaging | 🟠 Moyen | Maintenance continue requise. |
-| Contournement enfant | 🟠 Moyen | Limité mais réel. |
+| Faux positifs (ado drama normal classé comme harcèlement) | 🔴 Élevé | Seuils de confiance élevés (≥85 pour lock). Score 60-85 = alerte sans lock. Fine-tuning itératif. |
+| Faux négatifs (grooming subtil non détecté) | 🔴 Élevé | LLM 3.8B a des limites de compréhension contextuelle. Mitigation : multi-messages context window. |
+| Google Accessibility Service restrictions | 🟠 Moyen | Google durcit ses politiques Play Store. Risque : rejet du Play Store → distribution via APK direct / F-Droid. |
+| Performance sur devices bas de gamme | 🟠 Moyen | Min 6GB RAM. Exclut ~30% du parc Android. |
+| Batterie | 🟡 Faible | Scan périodique, pas continu. Estimé 5-8%/jour. |
+| Mises à jour apps messaging | 🟠 Moyen | UI changes dans WhatsApp/Snap = AccessibilityService peut casser. Maintenance continue requise. |
+| Contournement par l'enfant | 🟠 Moyen | Désactivation A11y Service, utilisation d'apps non surveillées, téléphone d'un ami. Limité mais réel. |
 
 ### 5.2 Risques juridiques
 
 | Risque | Impact | Mitigation |
 |---|---|---|
-| Qualification d'espionnage | 🔴 Élevé | Transparence totale + double consentement. |
-| CNIL / plainte | 🟠 Moyen | AIPD documentée, privacy by design. |
-| Preuves irrecevables | 🟠 Moyen | Keystore HW + RFC 3161. |
-| Parent unique sans accord | 🟠 Moyen | Double signature imposée. |
+| Qualification d'espionnage si mal implémenté | 🔴 Élevé | Transparence totale envers l'enfant. Double consentement parental. Pas de dashboard lecture de messages. |
+| CNIL / plainte | 🟠 Moyen | AIPD documentée, privacy by design, minimisation, purge auto. |
+| Preuves irrecevables si chaîne de conservation rompue | 🟠 Moyen | Android Keystore HW-backed + RFC 3161 + logs d'intégrité. Consulter un avocat pour validation formelle. |
+| Parent unique qui installe sans accord de l'autre | 🟠 Moyen | Setup impose double signature. Note légale explicite. |
 
 ---
 
@@ -118,7 +202,7 @@
 
 - **Code source** → AGPL-3.0 + Commons Clause (see LICENSE)
 - **Documentation** → CC BY-NC-SA 4.0 (see LICENSE-DOCS)
-- **Protection INPI** → Enveloppe Soleau recommandée (~15€)
+- **Protection INPI** → Enveloppe Soleau déposée (INPI, avril 2026)
 
 ---
 
@@ -127,7 +211,7 @@
 ### Phase 0 — Fondations (S1-2)
 - [x] Repo GitHub + structure
 - [x] Licences (AGPL-3.0 + Commons Clause + CC BY-NC-SA 4.0)
-- [ ] Enveloppe Soleau INPI
+- [x] Enveloppe Soleau INPI
 - [x] README + CONTRIBUTING + SECURITY
 - [x] CI/CD (GitHub Actions)
 
