@@ -7,7 +7,7 @@ Gardien handles sensitive data related to the protection of minors. We take secu
 If you discover a security vulnerability, **please do NOT open a public issue.**
 
 Instead, report it privately:
-- Email: **clawjoy@outlook.com**
+- Email: **mail@paulsi.mn**
 - Subject: `[SECURITY] Gardien - <brief description>`
 
 We will acknowledge receipt within 48 hours and provide a detailed response within 7 days.
@@ -25,7 +25,7 @@ Security issues include but are not limited to:
 ## Supported Versions
 
 | Version | Supported |
-|---------|-----------|
+|---------|:---------:|
 | MVP (dev) | ✅ |
 
 ## Responsible Disclosure

@@ -30,11 +30,15 @@ By participating, you agree to maintain a respectful and constructive environmen
 - Evidence-related code must include integrity verification tests
 - C++ code (llama.cpp JNI) follows the upstream style
 
-## Legal
+## License of Contributions
 
-By contributing, you agree that your contributions will be licensed under:
+By submitting a pull request, you agree that your contribution will be licensed under the same terms as the project:
 - **AGPL-3.0 + Commons Clause** for source code
 - **CC BY-NC-SA 4.0** for documentation
+
+You certify that you have the right to submit this contribution under these terms (Developer Certificate of Origin — [DCO 1.1](https://developercertificate.org/)).
+
+For commercial licensing inquiries: **mail@paulsi.mn**
 
 ## Privacy & Ethics
 
