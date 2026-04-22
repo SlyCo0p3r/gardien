@@ -2,7 +2,8 @@
   <img src="assets/banner.png" alt="Gardien Banner" width="100%">
 </p>
 
-<h1 align="center">🛡️ Gardien — IA On-Device pour la Protection des Enfants</h1>
+<h1 align="center">🛡️ Gardien</h1>
+<h3 align="center">IA On-Device pour la Protection des Enfants</h3>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0%20%2B%20Commons%20Clause-blue" alt="License"></a>
