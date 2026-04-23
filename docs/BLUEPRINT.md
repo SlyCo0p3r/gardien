@@ -1,7 +1,7 @@
 # 🛡️ GARDIEN — Blueprint MVP
 
 > Application Android de protection des mineurs par IA on-device
-> Version : 0.1-draft — 22 avril 2026
+> Version : 0.2-updated — 23 avril 2026
 
 ---
 
@@ -217,43 +217,53 @@
 - [x] README + CONTRIBUTING + SECURITY
 - [x] CI/CD (GitHub Actions)
 
-### Phase 1 — Capture (S3-5)
+### Phase 1 — Capture & Structure (S3-5)
+- [ ] Scaffold Android : Gradle/Kotlin, CI qui build réellement (pas de continue-on-error)
 - [ ] NotificationListenerService (WhatsApp, Snap, TikTok, Discord, Insta)
 - [ ] AccessibilityService
 - [ ] SMS Content Provider
 - [ ] Buffer chiffré Room/SQLCipher + purge 24h
+- [ ] Harnais de capture synthétique : logger uniquement app source, longueur, type (notif/A11y), timestamp — sans contenu
+- [ ] Stratégie distribution : APK direct + documentation F-Droid (dans README)
 - [ ] Tests Pixel 7a
 
-### Phase 2 — Analyse IA (S6-10)
-- [ ] llama.cpp JNI
-- [ ] Phi-3-mini Q4_K_M
-- [ ] Fine-tune Llama Guard 3 LoRA (child safety)
-- [ ] Pipeline analyse + scoring
-- [ ] Falconsai NSFW + pdq hash
-- [ ] Calibration seuils
+### Phase 2 — Decision Engine & Dataset (S6-10)
+- [ ] DecisionEngine déterministe (règles + seuils + états OK/ATTENTION/ALERTE/LOCK) — branché sur scores mockés
+- [ ] Dataset synthétique v1 : 500 conversations annotées (harcèlement, prédation, automutilation, contenu sexuel, violence)
+- [ ] Classifieur texte simple (règles + regex + features) avec métriques FP/FN (precision/recall)
+- [ ] Pipeline image : Falconsai NSFW + pdq hash
+- [ ] Calibration seuils (début à 60 pour ALERTE, 85 pour LOCK)
+- [ ] Tests end-to-end avec mock
+- [ ] Documentation des seuils dans docs/SEUILS.md
 
-### Phase 3 — Alerte & Lock (S11-13)
-- [ ] SMS alerte parent
-- [ ] Device Policy Manager lock + whitelist
-- [ ] Tests end-to-end
+### Phase 3 — Alerte, Lock & Preuves (S11-13)
+- [ ] SMS alerte parent (envoyé depuis le n° de l’enfant)
+- [ ] Device Policy Manager : lock écran + whitelist appels parents uniquement
+- [ ] Evidence Packager : SHA-256 des messages + screenshots + RFC 3161 timestamp + signature Android Keystore HW
+- [ ] Format .gardien (ZIP signé) + rapport PDF généré
+- [ ] Procédure d’export et vérification d’intégrité (log d’audit local)
+- [ ] Tests end-to-end avec preuves simulées
 
-### Phase 4 — Preuves & Légal (S14-16)
-- [ ] Evidence Packager (SHA-256 + RFC 3161)
-- [ ] Android Keystore HW
-- [ ] PDF rapport + .gardien package
-- [ ] AIPD
+### Phase 4 — Légal & UX (S14-16)
+- [ ] AIPD complète (Analyse d’Impact Protection des Données) — basée sur l’archi réelle
+- [ ] Politique de confidentialité "langage mineur" (version simplifiée pour l’enfant)
+- [ ] Registre des traitements (Art. 30 RGPD) — mis à jour avec l’implémentation réelle
+- [ ] Écran de setup : double consentement parental + information claire à l’enfant
+- [ ] Panel admin minimaliste (consultation des logs d’audit sur l’appareil)
 
-### Phase 5 — Setup & UX (S17-18)
-- [ ] Configuration initiale
-- [ ] Double consentement parental
-- [ ] Information enfant
-- [ ] Panel admin minimaliste
+### Phase 5 — Tests & Publication (S17-18)
+- [ ] Tests multi-devices (Snapdragon 700+, 6GB RAM+)
+- [ ] Tests batterie (< 8%/jour)
+- [ ] Tests faux positifs/négatifs (avec dataset synthétique)
+- [ ] Documentation utilisateur (PDF + vidéos internes)
+- [ ] Publication APK + documentation F-Droid
 
-### Phase 6 — Tests & Publication (S19-20)
-- [ ] Tests multi-devices
-- [ ] Tests batterie (< 10%/jour)
-- [ ] Tests faux positifs/négatifs
-- [ ] Publication
+### Phase 6 — Maintenance & Évolution (S19-20)
+- [ ] Plan de maintenance : mise à jour des modèles (download au lancement + checksum)
+- [ ] Mécanisme de provenance des modèles (dépôt sécurisé + hash vérifiable)
+- [ ] Support pour nouvelles apps (Discord, TikTok UI changes)
+- [ ] Analyse des signalements des utilisateurs
+- [ ] Préparation version 1.0 (sans changement d’architecture)
 
 ---
 
