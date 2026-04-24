@@ -13,4 +13,9 @@
     <string name="capture_gate_status">Phase 1 capture gate: %1$s</string>
     <string name="capture_gate_enabled">enabled</string>
     <string name="capture_gate_disabled">disabled</string>
+    <string name="debug_captures_title">Debug captures metadata</string>
+    <string name="refresh_debug_captures_button">Refresh captures</string>
+    <string name="debug_captures_loading">Loading metadata...</string>
+    <string name="debug_captures_empty">No captures yet.</string>
+    <string name="debug_captures_error">Unable to load metadata: %1$s</string>
 </resources>

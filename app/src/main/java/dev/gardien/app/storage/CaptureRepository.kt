@@ -30,4 +30,7 @@ class CaptureRepository(
         )
         return deleted
     }
+
+    suspend fun recentMetadata(limit: Int = 20): List<CaptureMetadataRow> =
+        captureDao.recentMetadata(limit)
 }

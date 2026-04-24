@@ -58,6 +58,27 @@ class CaptureRepositoryTest {
         assertTrue(auditLogDao.entries.last().metadata.contains("deleted=1"))
     }
 
+    @Test
+    fun `recent metadata excludes payload content`() = runTest {
+        val captureDao = FakeCaptureDao()
+        val auditLogDao = FakeAuditLogDao()
+        val repository = CaptureRepository(captureDao, auditLogDao)
+        val event = CaptureNormalizer.fromText(
+            sourcePackage = "com.instagram.android",
+            captureType = CaptureType.NOTIFICATION,
+            text = "payload must not reach debug metadata",
+            capturedAtEpochMillis = 2_000L,
+        )
+        captureDao.insert(event.toEntity())
+
+        val metadata = repository.recentMetadata(limit = 10).single()
+
+        assertEquals("com.instagram.android", metadata.sourcePackage)
+        assertEquals("NOTIFICATION", metadata.captureType)
+        assertEquals("payload must not reach debug metadata".length, metadata.contentLength)
+        assertFalse(metadata.toDisplayLine().contains("payload must not reach"))
+    }
+
     private class FakeCaptureDao : CaptureDao {
         val events = mutableListOf<CapturedEventEntity>()
 
@@ -71,6 +92,22 @@ class CaptureRepositoryTest {
             events.removeAll { it.expiresAtEpochMillis <= nowEpochMillis }
             return before - events.size
         }
+
+        override suspend fun recentMetadata(limit: Int): List<CaptureMetadataRow> =
+            events
+                .sortedByDescending { it.capturedAtEpochMillis }
+                .take(limit)
+                .map {
+                    CaptureMetadataRow(
+                        id = it.id,
+                        sourcePackage = it.sourcePackage,
+                        captureType = it.captureType,
+                        capturedAtEpochMillis = it.capturedAtEpochMillis,
+                        expiresAtEpochMillis = it.expiresAtEpochMillis,
+                        contentLength = it.contentLength,
+                        synthetic = it.synthetic,
+                    )
+                }
 
         override suspend fun count(): Int = events.size
     }

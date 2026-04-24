@@ -26,3 +26,7 @@ app/
 ```
 
 Phase 1 capture services are disabled by default and gated behind the research capture toggle in the debug app. The synthetic harness logs metadata only: source, capture type, content length, timestamp, and synthetic flag.
+
+## Debug Capture View
+
+Debug builds include an on-device metadata panel for Phase 1 validation. Use **Inject synthetic capture** to create a safe fixture event, then **Refresh captures** to list the latest stored captures. The panel reads a Room projection that excludes message payloads, so it displays metadata only.
