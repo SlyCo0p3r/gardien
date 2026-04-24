@@ -2,88 +2,92 @@
   <img src="assets/banner.png" alt="Gardien Banner" width="100%">
 </p>
 
-<h1 align="center">🛡️ Gardien</h1>
-<h3 align="center">IA On-Device pour la Protection des Enfants</h3>
+<h1 align="center">Gardien</h1>
+<h3 align="center">Protection Android des mineurs, IA on-device, respect de la vie privée</h3>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0%20%2B%20Commons%20Clause-blue" alt="License"></a>
   <a href="LICENSE-DOCS"><img src="https://img.shields.io/badge/docs-CC%20BY--NC--SA%204.0-green" alt="Docs License"></a>
   <a href="https://github.com/SlyCo0p3r/gardien/actions"><img src="https://github.com/SlyCo0p3r/gardien/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/badge/platform-Android-brightgreen" alt="Platform">
-  <img src="https://img.shields.io/badge/AI-on--device-orange" alt="AI on-device">
+  <img src="https://img.shields.io/badge/status-Phase%201%20scaffold-orange" alt="Phase 1 scaffold">
 </p>
 
-<p align="center"><em>Source-available · Privacy-first · On-device AI · Zero cloud dependency</em></p>
+<p align="center"><em>Source-available · Android · IA locale · Zéro cloud sauf incident</em></p>
 
 ---
 
-Une app Android qui protège les enfants en analysant messages et images **localement** — rien ne quitte le téléphone sauf en cas de danger.
-Pas de cloud. Pas d'espionnage. Pas de tableau de bord. Juste une IA gardienne qui *comprend* le risque — et reste silencieuse jusqu'à ce qu'elle doive agir.
+Gardien est un projet Android de recherche pour protéger les enfants et adolescents contre certains risques en ligne tout en évitant le modèle de surveillance parentale permanente. L'objectif produit reste simple : analyser localement les messages et images sur le téléphone de l'enfant, ne pas exposer les conversations aux parents, et ne sortir des données de l'appareil qu'en cas d'incident sérieux.
 
-## 🚫 Ce que Gardien n'est PAS
+**Important : Gardien n'est pas un logiciel de production.** Le dépôt contient aujourd'hui un scaffold Android de Phase 1 et des fondations de test. Il ne doit pas être installé sur un appareil réel d'enfant sans revue juridique, validation de sécurité, consentements nécessaires et tests terrain documentés.
 
-- ✖️ Bark, Qustodio ou mSpy — on n'envoie pas les messages de votre enfant dans le cloud.
-- ✖️ Un outil d'espionnage parental — vous ne lisez pas les messages de votre enfant.
-- ✖️ Un tracker de temps d'écran — on ne surveille pas combien de temps ils passent sur leur téléphone.
+## Positionnement
 
-## ✅ Ce que c'est
+Gardien vise une approche différente des outils de contrôle parental classiques :
 
-- ✅ Un LLM local sur le téléphone Android de l'enfant (Phi-3-mini 3.8B)
-- ✅ Surveille toutes les apps de messagerie (WhatsApp, Snapchat, TikTok, Discord, Instagram, SMS) via Android Accessibility + Notification services
-- ✅ Détecte le harcèlement, la prédation, l'automutilation, les contenus sexuels — avec Llama Guard 3 fine-tuné
-- ✅ Aucune donnée ne quitte l'appareil sauf en cas d'incident
-- ✅ En cas de danger : envoi d'un SMS aux parents + verrouillage du téléphone (appels uniquement aux parents autorisés)
-- ✅ Génère des preuves signées cryptographiquement (SHA-256 + RFC 3161) à valeur juridique
-- ✅ Conception privacy-by-design : enfant informé, consentement des deux parents requis, conforme RGPD/droit français
+- **On-device d'abord** : l'analyse prévue se fait localement sur Android, sans tableau de bord cloud.
+- **Pas d'espionnage parental** : le parent ne consulte pas les conversations ; il reçoit uniquement une alerte si un seuil de risque est atteint.
+- **Minimisation** : la capture de recherche Phase 1 ne journalise que des métadonnées de validation, pas le contenu des messages.
+- **Incident seulement** : les sorties prévues hors appareil concernent les alertes et, plus tard, les paquets de preuves liés à un incident.
+- **Source-available** : le code est publié sous AGPL-3.0 + Commons Clause, avec une documentation non commerciale.
 
-## 🚀 Roadmap
+## État actuel
 
-Phase 0: Fondations ✅ → Phase 1: Capture → Phase 1.2: Dataset synthétique → Phase 2: IA → Phase 3: Alerte & Lock → Phase 4: Preuves → Phase 5: UX → Phase 6: Tests
+Le scaffold Phase 1 est en place dans [`app/`](app/README.md) :
 
-## 📦 Distribution MVP
+- projet Android Kotlin/Gradle, min SDK 28, target SDK 35 ;
+- services de capture NotificationListener, AccessibilityService et lecteur SMS structurés pour la recherche ;
+- capture désactivée par défaut et protégée par un toggle de recherche dans l'app debug ;
+- stockage local Room + SQLCipher, repository de capture, purge des événements expirés ;
+- harnais synthétique qui enregistre uniquement source, type, longueur, timestamp et indicateur synthétique ;
+- tests unitaires pour normalisation de capture, stockage et dataset synthétique.
 
-Phase 1 targets direct APK testing only. Each research APK must be distributed with a checksum and signing fingerprint. F-Droid packaging is planned for the MVP path; Play Store publication is not part of Phase 1 because Android AccessibilityService policy risk remains unresolved.
+La Phase 1.2 prépare le dataset synthétique : taxonomie, schéma, générateur déterministe et validation anti-PII. Elle ne constitue pas un entraînement de modèle.
 
-## 📜 Licence
+Les capacités suivantes restent dans la roadmap et ne doivent pas être présentées comme livrées : LLM embarqué, modèle image, alertes parentales SMS, verrouillage d'urgence, paquets de preuves signés, UX de consentement complète, distribution publique.
 
-- Code : [AGPL-3.0 + Commons Clause](LICENSE) — Source-available, pas d'usage commercial
-- Documentation : [CC BY-NC-SA 4.0](LICENSE-DOCS) — Attribution requise, non-commercial
+## Build et CI
 
-## 📄 Documentation
+Commande locale depuis la racine du dépôt :
 
-- [Blueprint MVP](docs/BLUEPRINT.md)
-- [Cadre juridique FR](docs/LEGAL.md)
-- [Politique de sécurité](SECURITY.md)
-- [Contribuer](CONTRIBUTING.md)
-- [Dataset synthétique](docs/DATASET.md)
-- [Checklist de test Phase 1](docs/PHASE1_TESTING.md)
+```bash
+./gradlew testDebugUnitTest lintDebug assembleDebug --no-daemon
+```
+
+La CI GitHub Actions exécute la même commande avec JDK 17 et Android SDK 35. Elle se déclenche sur push vers `main` et `development`, ainsi que sur pull request vers `main`. Les erreurs de tests, lint ou assemble doivent faire échouer le build.
+
+## Workflow de développement
+
+- `development` est la branche de travail courante.
+- Créez des branches courtes de type `feature/...` depuis `development`.
+- Ouvrez une pull request et attendez la CI avant merge.
+- `main` reste la branche stabilisée ; aucune release publique n'est publiée depuis ce dépôt pour l'instant.
+
+## Distribution
+
+Il n'existe pas encore de package public, de release utilisateur ou de publication Play Store/F-Droid.
+
+Les APK Phase 1 sont des builds de recherche uniquement. S'ils sont partagés pour validation, ils doivent être distribués directement avec un checksum et l'empreinte de signature. La documentation F-Droid est prévue pour le chemin MVP ; la publication Play Store n'est pas dans le périmètre Phase 1 à cause du risque de politique Android AccessibilityService.
+
+## Documentation
+
+- [`docs/BLUEPRINT.md`](docs/BLUEPRINT.md) : architecture MVP, risques, roadmap.
+- [`docs/PHASE1_TESTING.md`](docs/PHASE1_TESTING.md) : checklist de test Phase 1 et distribution de recherche.
+- [`docs/DATASET.md`](docs/DATASET.md) : dataset synthétique, taxonomie et règles de sécurité.
+- [`app/README.md`](app/README.md) : détails du scaffold Android.
+- [`docs/LEGAL.md`](docs/LEGAL.md) : cadre juridique français et RGPD.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) : contributions et règles éthiques.
+- [`SECURITY.md`](SECURITY.md) : politique de sécurité.
+
+## Licence
+
+- Code : [`AGPL-3.0 + Commons Clause`](LICENSE) — source-available, usage commercial interdit sans accord.
+- Documentation : [`CC BY-NC-SA 4.0`](LICENSE-DOCS) — attribution requise, usage non commercial.
 
 ---
 
-## 🇬🇧 English
+## English
 
-> An Android app that protects children by analyzing messages and images locally — nothing leaves the phone except in case of danger.
+Gardien is a source-available Android research project for child protection with an on-device, privacy-first architecture. The current repository contains the Phase 1 Android scaffold and synthetic testing foundations only. It is not production software, there is no public release package yet, and future AI, alerting, lock, and evidence features must not be treated as shipped.
 
-No cloud. No spying. No dashboard. Just an AI guardian that *understands* risk — and stays silent until it must act.
-
-### 🚫 What This Is NOT
-
-- ✖️ Not Bark, Qustodio, or mSpy — we do not send your child's messages to the cloud.
-- ✖️ Not a parental spy tool — you do not read your child's messages.
-- ✖️ Not a screen time tracker — we don't monitor how long they're on their phone.
-
-### ✅ What This IS
-
-- ✅ A local LLM running on the child's Android phone (Phi-3-mini 3.8B)
-- ✅ Monitors all messaging apps (WhatsApp, Snapchat, TikTok, Discord, Instagram, SMS) via Android Accessibility + Notification services
-- ✅ Detects grooming, self-harm, violence, sexual content — using fine-tuned Llama Guard 3
-- ✅ Zero data leaves the device unless an incident is detected
-- ✅ In case of danger: sends SMS alert to parents + locks the phone (only calls to parents allowed)
-- ✅ Generates cryptographically signed evidence (SHA-256 + RFC 3161 timestamp) for legal use
-- ✅ Privacy-first design: child is informed, two-parent consent required, GDPR/FR compliant
-
----
-
-> *« On protège leur vie privée, pas leur silence. »*
-
-*Ceci est un blueprint de recherche. Pas un logiciel de production. Ne pas installer sur un appareil sans conseil juridique.*
+> On protège leur vie privée, pas leur silence.
