@@ -38,7 +38,11 @@ Pas de cloud. Pas d'espionnage. Pas de tableau de bord. Juste une IA gardienne q
 
 ## 🚀 Roadmap
 
-Phase 0: Fondations ✅ → Phase 1: Capture → Phase 2: IA → Phase 3: Alerte & Lock → Phase 4: Preuves → Phase 5: UX → Phase 6: Tests
+Phase 0: Fondations ✅ → Phase 1: Capture → Phase 1.2: Dataset synthétique → Phase 2: IA → Phase 3: Alerte & Lock → Phase 4: Preuves → Phase 5: UX → Phase 6: Tests
+
+## 📦 Distribution MVP
+
+Phase 1 targets direct APK testing only. Each research APK must be distributed with a checksum and signing fingerprint. F-Droid packaging is planned for the MVP path; Play Store publication is not part of Phase 1 because Android AccessibilityService policy risk remains unresolved.
 
 ## 📜 Licence
 
@@ -51,6 +55,8 @@ Phase 0: Fondations ✅ → Phase 1: Capture → Phase 2: IA → Phase 3: Alerte
 - [Cadre juridique FR](docs/LEGAL.md)
 - [Politique de sécurité](SECURITY.md)
 - [Contribuer](CONTRIBUTING.md)
+- [Dataset synthétique](docs/DATASET.md)
+- [Checklist de test Phase 1](docs/PHASE1_TESTING.md)
 
 ---
 

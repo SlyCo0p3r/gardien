@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gardien</string>
+    <string name="notification_listener_label">Gardien notification capture</string>
+    <string name="accessibility_service_label">Gardien accessibility capture</string>
+    <string name="accessibility_service_description">Gardien research capture service</string>
+    <string name="research_capture_toggle">Research capture</string>
+    <string name="notification_access_button">Notification access</string>
+    <string name="accessibility_button">Accessibility</string>
+    <string name="sms_permission_button">SMS permission</string>
+    <string name="synthetic_capture_button">Inject synthetic capture</string>
+    <string name="synthetic_capture_toast">Synthetic metadata captured</string>
+    <string name="capture_gate_status">Phase 1 capture gate: %1$s</string>
+    <string name="capture_gate_enabled">enabled</string>
+    <string name="capture_gate_disabled">disabled</string>
+</resources>
