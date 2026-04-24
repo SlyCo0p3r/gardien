@@ -227,9 +227,17 @@
 - [ ] Stratégie distribution : APK direct + documentation F-Droid (dans README)
 - [ ] Tests Pixel 7a
 
+### Phase 1.2 — Dataset synthétique & évaluation (S5-6)
+- [ ] Taxonomie risques : benign, harassment, grooming, self-harm, sexual-risk, violence, ambiguous
+- [ ] Schéma dataset : tours de conversation, tranche d'âge, app source, langue, labels, score, action attendue, rationale, provenance synthétique
+- [ ] Générateur déterministe seedable
+- [ ] Dataset synthétique v1 : 500 conversations annotées
+- [ ] Validation : couverture labels, absence PII évidente, aucune donnée réelle, aucun contenu CSAM ou sexualisé explicite impliquant des mineurs
+- [ ] Documentation dans docs/DATASET.md
+
 ### Phase 2 — Decision Engine & Dataset (S6-10)
 - [ ] DecisionEngine déterministe (règles + seuils + états OK/ATTENTION/ALERTE/LOCK) — branché sur scores mockés
-- [ ] Dataset synthétique v1 : 500 conversations annotées (harcèlement, prédation, automutilation, contenu sexuel, violence)
+- [ ] Chargement du dataset Phase 1.2 dans le harnais d'évaluation
 - [ ] Classifieur texte simple (règles + regex + features) avec métriques FP/FN (precision/recall)
 - [ ] Pipeline image : Falconsai NSFW + pdq hash
 - [ ] Calibration seuils (début à 60 pour ALERTE, 85 pour LOCK)

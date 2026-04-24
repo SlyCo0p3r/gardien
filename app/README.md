@@ -1,8 +1,8 @@
-# Gardien - Android App Source
+# Gardien Android App
 
-This directory will contain the Android application source code.
+This directory contains the Phase 1 Android application scaffold.
 
-## Planned Structure (Phase 1+)
+## Structure
 
 ```
 app/
@@ -12,13 +12,17 @@ app/
         ├── AndroidManifest.xml
         ├── java/dev/gardien/app/
         │   ├── GardienApp.kt
+        │   ├── MainActivity.kt
         │   ├── capture/
-        │   ├── analysis/
-        │   ├── alert/
-        │   ├── evidence/
-        │   ├── storage/
-        │   └── setup/
+        │   ├── dataset/
+        │   └── storage/
         └── res/
 ```
 
-This structure will be scaffolded during **Phase 1 — Capture** (weeks 3-5).
+## Build
+
+```bash
+./gradlew testDebugUnitTest lintDebug assembleDebug --no-daemon
+```
+
+Phase 1 capture services are disabled by default and gated behind the research capture toggle in the debug app. The synthetic harness logs metadata only: source, capture type, content length, timestamp, and synthetic flag.
